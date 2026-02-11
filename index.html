@@ -95,16 +95,25 @@ function sendEmail() {
     const to = "info@laurel-estates.com";
     const subject = "Contact Form Message from Laurel Estates";
 
-    // Build the body text with proper newlines
-    const body = `Name: ${name}
+    // Build the email body
+    let body = `Name: ${name}
 Email: ${email}
 
 Buy Box: ${buybox}`;
 
-    // Encode only problematic characters (like &, ?, #), keep newlines readable
-    const encodedBody = encodeURIComponent(body).replace(/%0A/g, '\n');
+    // Encode only characters that break URLs: & ? # 
+    // This keeps @, spaces, apostrophes, emojis, accents readable
+    body = body.replace(/&/g, '%26')
+               .replace(/\?/g, '%3F')
+               .replace(/#/g, '%23');
 
-    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodedBody}`;
+    // Encode subject minimally to avoid breaking the URL
+    const safeSubject = subject.replace(/&/g, '%26')
+                               .replace(/\?/g, '%3F')
+                               .replace(/#/g, '%23');
+
+    // Redirect to mail client
+    window.location.href = `mailto:${to}?subject=${safeSubject}&body=${body}`;
 }
 </script>
 
@@ -129,6 +138,7 @@ Buy Box: ${buybox}`;
 
     </body>
 </html>
+
 
 
 
