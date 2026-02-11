@@ -92,14 +92,19 @@ function sendEmail() {
     const email = document.getElementById('email').value;
     const buybox = document.getElementById('buybox').value;
 
-    const to = encodeURIComponent("laurel-estates.com");
-    const subject = encodeURIComponent("Contact Form Message from Laurel Estates");
+    const to = "info@laurel-estates.com";
+    const subject = "Contact Form Message from Laurel Estates";
 
-    const body = encodeURIComponent(
-        `Name: ${name}\nEmail: ${email}\n\nBuy Box: ${buybox}`
-    );
+    // Build the body text with proper newlines
+    const body = `Name: ${name}
+Email: ${email}
 
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+Buy Box: ${buybox}`;
+
+    // Encode only problematic characters (like &, ?, #), keep newlines readable
+    const encodedBody = encodeURIComponent(body).replace(/%0A/g, '\n');
+
+    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodedBody}`;
 }
 </script>
 
@@ -124,6 +129,7 @@ function sendEmail() {
 
     </body>
 </html>
+
 
 
 
