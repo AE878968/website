@@ -62,9 +62,10 @@
                 <!-- Contact -->
                 <!-- Contact -->
 <!-- Contact -->
+<!-- Contact -->
 <article id="contact">
     <h2 class="major">Contact Us</h2>
-    <form id="contactForm" action="https://formsubmit.co/info@laurel-estates.com" method="POST">
+    <form id="contactForm">
         <div class="fields">
             <div class="field half">
                 <label for="name">Name</label>
@@ -83,14 +84,37 @@
             <li><button type="submit">Send Message</button></li>
             <li><input type="reset" value="Reset" /></li>
         </ul>
-
-        <!-- Optional: Redirect to thank-you page after submit -->
-        <!-- <input type="hidden" name="_next" value="thankyou.html"> -->
-
-        <!-- Optional: Honeypot to prevent spam -->
-        <input type="text" name="_honey" style="display:none">
     </form>
+
+    <script>
+        const form = document.getElementById('contactForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent page reload
+
+            const data = {
+                name: form.name.value,
+                email: form.email.value,
+                buybox: form.buybox.value
+            };
+
+            // Replace 'yourFormID' with the ID you get from Formspree
+            const response = await fetch('https://formspree.io/f/yourFormID', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if(response.ok){
+                alert('Message sent successfully!');
+                form.reset();
+            } else {
+                alert('Oops! Something went wrong.');
+            }
+        });
+    </script>
 </article>
+
 
 <!-- JavaScript to prefill email -->
 <script>
@@ -145,6 +169,7 @@ Buy Box: ${buybox}`;
 
     </body>
 </html>
+
 
 
 
