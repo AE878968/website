@@ -60,68 +60,78 @@
                 </article>
 
                 <!-- Contact -->
-                <article id="contact">
-                    <h2 class="major">Contact Us</h2>
-                    <form id="contactForm">
-                        <div class="fields">
-                            <div class="field half">
-                                <label for="name">Name</label>
-                                <input type="text" name="name" id="name" placeholder="Your Name" required />
-                            </div>
-                            <div class="field half">
-                                <label for="email">Email</label>
-                                <input type="email" name="email" id="email" placeholder="you@example.com" required />
-                            </div>
-                            <div class="field">
-                                <label for="buybox">Buy Box</label>
-                                <textarea name="buybox" id="buybox" rows="4" placeholder="Your buy box criteria" required></textarea>
-                            </div>
-                        </div>
-                        <ul class="actions">
-                            <li><button type="submit">Send Message</button></li>
-                            <li><input type="reset" value="Reset" /></li>
-                        </ul>
-                        <!-- Optional honeypot field -->
-                        <input type="text" name="_honey" style="display:none">
-                    </form>
+                <!-- Contact -->
+<article id="contact">
+    <h2 class="major">Contact Us</h2>
 
-                    <script>
-                        const form = document.getElementById('contactForm');
-                        const contactTab = document.getElementById('contact'); // contact article
+    <form 
+        id="contactForm"
+        action="https://formspree.io/f/xreaevwa"
+        method="POST"
+    >
+        <div class="fields">
+            <div class="field half">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Your Name" required />
+            </div>
+            <div class="field half">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="you@example.com" required />
+            </div>
+            <div class="field">
+                <label for="buybox">Buy Box</label>
+                <textarea name="buybox" id="buybox" rows="4" placeholder="Your buy box criteria" required></textarea>
+            </div>
+        </div>
 
-                        form.addEventListener('submit', async (e) => {
-                            e.preventDefault(); // prevent default submit
+        <ul class="actions">
+            <li><button type="submit">Send Message</button></li>
+            <li><input type="reset" value="Reset" /></li>
+        </ul>
 
-                            const data = {
-                                name: form.name.value,
-                                email: form.email.value,
-                                buybox: form.buybox.value
-                            };
+        <!-- Optional hidden fields -->
+        <input type="hidden" name="_subject" value="New Investor Submission - Laurel Estates">
+        <input type="hidden" name="_captcha" value="false">
+    </form>
 
-                            try {
-                                const response = await fetch('https://formspree.io/f/xreaevwa', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify(data)
-                                });
+    <!-- Success message -->
+    <div id="successMessage" style="display:none; margin-top:20px;">
+        <p><strong>Thank you!</strong> Your message has been sent successfully.</p>
+    </div>
+</article>
 
-                                if (response.ok) {
-                                    form.reset();
+<script>
+document.getElementById("contactForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-                                    // Smoothly hide the contact tab like the X button
-                                    contactTab.classList.add('hidden'); // add your site’s hide class
-                                    // OR if your main.js uses jQuery fadeOut:
-                                    // $(contactTab).fadeOut("slow");
+    const form = event.target;
+    const data = new FormData(form);
 
-                                } else {
-                                    alert('Oops! Something went wrong.');
-                                }
-                            } catch (error) {
-                                alert('Network error — please try again.');
-                            }
-                        });
-                    </script>
-                </article>
+    try {
+        const response = await fetch(form.action, {
+            method: "POST",
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+            form.reset();
+            document.getElementById("successMessage").style.display = "block";
+
+            // Smoothly hide contact tab using jQuery fadeOut (if your template uses jQuery)
+            const contactTab = document.getElementById('contact');
+            if (contactTab) {
+                $(contactTab).fadeOut("slow");
+            }
+
+        } else {
+            alert("Oops! Something went wrong.");
+        }
+    } catch (error) {
+        alert("Network error — please try again.");
+    }
+});
+</script>
 
             </div>
 
