@@ -60,96 +60,68 @@
                 </article>
 
                 <!-- Contact -->
-                <!-- Contact -->
-<!-- Contact -->
-<!-- Contact -->
-<article id="contact">
-    <h2 class="major">Contact Us</h2>
-    <form id="contactForm">
-        <div class="fields">
-            <div class="field half">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" placeholder="Your Name" required />
-            </div>
-            <div class="field half">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="you@example.com" required />
-            </div>
-            <div class="field">
-                <label for="buybox">Buy Box</label>
-                <textarea name="buybox" id="buybox" rows="4" placeholder="Your buy box criteria" required></textarea>
-            </div>
-        </div>
-        <ul class="actions">
-            <li><button type="submit">Send Message</button></li>
-            <li><input type="reset" value="Reset" /></li>
-        </ul>
-    </form>
+                <article id="contact">
+                    <h2 class="major">Contact Us</h2>
+                    <form id="contactForm">
+                        <div class="fields">
+                            <div class="field half">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name" placeholder="Your Name" required />
+                            </div>
+                            <div class="field half">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" id="email" placeholder="you@example.com" required />
+                            </div>
+                            <div class="field">
+                                <label for="buybox">Buy Box</label>
+                                <textarea name="buybox" id="buybox" rows="4" placeholder="Your buy box criteria" required></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><button type="submit">Send Message</button></li>
+                            <li><input type="reset" value="Reset" /></li>
+                        </ul>
+                        <!-- Optional honeypot field -->
+                        <input type="text" name="_honey" style="display:none">
+                    </form>
 
-    <script>
-        const form = document.getElementById('contactForm');
+                    <script>
+                        const form = document.getElementById('contactForm');
+                        const contactTab = document.getElementById('contact'); // contact article
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevent page from reloading
+                        form.addEventListener('submit', async (e) => {
+                            e.preventDefault(); // prevent default submit
 
-            const data = {
-                name: form.name.value,
-                email: form.email.value,
-                buybox: form.buybox.value
-            };
+                            const data = {
+                                name: form.name.value,
+                                email: form.email.value,
+                                buybox: form.buybox.value
+                            };
 
-            try {
-                const response = await fetch('https://formspree.io/f/xreaevwa', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
+                            try {
+                                const response = await fetch('https://formspree.io/f/xreaevwa', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(data)
+                                });
 
-                if (response.ok) {
-                    alert('Message sent successfully!');
-                    form.reset();
-                } else {
-                    alert('Oops! Something went wrong.');
-                }
-            } catch (error) {
-                alert('Network error — please try again.');
-            }
-        });
-    </script>
-</article>
+                                if (response.ok) {
+                                    form.reset();
 
+                                    // Smoothly hide the contact tab like the X button
+                                    contactTab.classList.add('hidden'); // add your site’s hide class
+                                    // OR if your main.js uses jQuery fadeOut:
+                                    // $(contactTab).fadeOut("slow");
 
-<!-- JavaScript to prefill email -->
-<script>
-function sendEmail() {
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const buybox = document.getElementById('buybox').value;
-
-    const to = "info@laurel-estates.com";
-    const subject = "Contact Form Message from Laurel Estates";
-
-    // Build the email body
-    let body = `Name: ${name}
-Email: ${email}
-
-Buy Box: ${buybox}`;
-
-    // Encode only characters that break URLs: & ? # 
-    // This keeps @, spaces, apostrophes, emojis, accents readable
-    body = body.replace(/&/g, '%26')
-               .replace(/\?/g, '%3F')
-               .replace(/#/g, '%23');
-
-    // Encode subject minimally to avoid breaking the URL
-    const safeSubject = subject.replace(/&/g, '%26')
-                               .replace(/\?/g, '%3F')
-                               .replace(/#/g, '%23');
-
-    // Redirect to mail client
-    window.location.href = `mailto:${to}?subject=${safeSubject}&body=${body}`;
-}
-</script>
+                                } else {
+                                    alert('Oops! Something went wrong.');
+                                }
+                            } catch (error) {
+                                alert('Network error — please try again.');
+                            }
+                        });
+                    </script>
+                </article>
 
             </div>
 
@@ -172,11 +144,3 @@ Buy Box: ${buybox}`;
 
     </body>
 </html>
-
-
-
-
-
-
-
-
